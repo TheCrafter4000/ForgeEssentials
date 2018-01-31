@@ -21,6 +21,7 @@ import com.forgeessentials.api.UserIdent;
 import com.forgeessentials.api.UserIdent.UserIdentInvalidatedEvent;
 import com.forgeessentials.commons.selections.WorldArea;
 import com.forgeessentials.commons.selections.WorldPoint;
+import com.forgeessentials.util.output.LoggingHandler;
 
 /**
  * Zones are used to store permissions in a tree-like hierarchy. Each zone has it's own set of group- and
@@ -157,9 +158,21 @@ public abstract class Zone
         }
     };
 
+	public static class ReplaceMap<K,V> extends HashMap<K,V>{
+		
+		@Override
+		public V put(K key, V value) {
+			V obj = super.put(key, value);
+			if(obj != null) {
+				LoggingHandler.felog.error("Fixed Duplicate bug for key-value pair " + key + "/" + obj);
+			}
+			return null; // Fixes the duplicate bug by always returning null, so the GSON reader thinks nothing got replaced 
+		}
+	}
+    
     private int id;
 
-    protected Map<UserIdent, PermissionList> playerPermissions = new HashMap<>();
+    protected ReplaceMap<UserIdent, PermissionList> playerPermissions = new ReplaceMap<>();
 
     protected Map<String, PermissionList> groupPermissions = new HashMap<>();
 
@@ -607,7 +620,7 @@ public abstract class Zone
         zone.groupPermissions = groupPermissions;
         groupPermissions = swapGroupPerms;
 
-        Map<UserIdent, PermissionList> swapPlayerPermissions = zone.playerPermissions;
+        ReplaceMap<UserIdent, PermissionList> swapPlayerPermissions = zone.playerPermissions;
         zone.playerPermissions = playerPermissions;
         playerPermissions = swapPlayerPermissions;
     }
