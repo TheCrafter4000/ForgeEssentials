@@ -27,10 +27,13 @@ public class LogEventCommand extends PlayerLoggerEvent<CommandEvent>
         Action02Command action = new Action02Command();
         action.time = date;
         action.command = event.command.getCommandName();
-        if (event.parameters.length > 0)
+        if (event.parameters.length > 0) {
             action.arguments = StringUtils.join(event.parameters, ' ');
-        if (event.sender instanceof EntityPlayer)
-        {
+            if(action.arguments.length() >= 255) {
+            	action.arguments = action.arguments.substring(0, 255);
+            }
+        }
+        if (event.sender instanceof EntityPlayer) {
             EntityPlayer player = ((EntityPlayer) event.sender);
             action.player = getPlayer(player);
             action.world = getWorld(player.worldObj.provider.dimensionId);
@@ -38,8 +41,7 @@ public class LogEventCommand extends PlayerLoggerEvent<CommandEvent>
             action.y = (int) player.posY;
             action.z = (int) player.posZ;
         }
-        else if (event.sender instanceof CommandBlockLogic)
-        {
+        else if (event.sender instanceof CommandBlockLogic) {
             CommandBlockLogic block = ((CommandBlockLogic) event.sender);
             action.player = getPlayer(APIRegistry.IDENT_CMDBLOCK);
             action.world = getWorld(block.getEntityWorld().provider.dimensionId);

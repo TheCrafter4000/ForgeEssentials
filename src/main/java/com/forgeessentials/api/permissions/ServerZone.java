@@ -24,6 +24,7 @@ import com.forgeessentials.api.UserIdent;
 import com.forgeessentials.commons.selections.WorldArea;
 import com.forgeessentials.commons.selections.WorldPoint;
 import com.forgeessentials.data.v2.Loadable;
+import com.forgeessentials.util.output.LoggingHandler;
 import com.google.gson.annotations.Expose;
 
 /**
@@ -69,6 +70,8 @@ public class ServerZone extends Zone implements Loadable
     @Override
     public void afterLoad()
     {
+    	Zone.ReplaceMap.isLoading = false;
+    	LoggingHandler.felog.info("Done loading server zone!");
         for (WorldZone zone : worldZones.values())
         {
             zone.serverZone = this;

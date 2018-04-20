@@ -25,6 +25,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.sql.rowset.serial.SerialBlob;
 
 import net.minecraft.block.Block;
+import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBed;
@@ -719,6 +720,14 @@ public class PlayerLogger extends ServerEventHandler implements Runnable
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void commandEvent(CommandEvent event)
     {
+    	if(event.sender instanceof CommandBlockLogic) {
+    		if(!PlayerLoggerConfig.enableCommandBlockLogging) {
+    			return;
+    		}else {
+    			//Do stuff
+    		}
+    	}
+    	
         logEvent(new LogEventCommand(event));
     }
 

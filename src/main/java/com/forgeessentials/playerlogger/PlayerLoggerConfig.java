@@ -18,6 +18,8 @@ public class PlayerLoggerConfig extends ConfigLoaderBase
     public static int logDuration;
 
     public static double playerPositionInterval;
+    
+    public static boolean enableCommandBlockLogging;
 
     @Override
     public void load(Configuration config, boolean isReload)
@@ -30,6 +32,7 @@ public class PlayerLoggerConfig extends ConfigLoaderBase
         databasePassword = config.get(CAT, "DB_password", "forgeessentials", "Database password.").getString();
         logDuration = config.get(CAT, "log_duration", 0, "Days to keep data saved in the database. Set to 0 to keep all data indefinitely.").getInt();
         playerPositionInterval = config.get(CAT, "player_pos_interval", 5, "Log player positions every X seconds. Set to 0 to disable.").getDouble();
+        enableCommandBlockLogging = config.get(CAT, "enable_command_block_logging", true, "Whether commands performed by command blocks should be logged.").getBoolean();
         if (playerPositionInterval > 0 && playerPositionInterval < 0.5)
             playerPositionInterval = 0.5;
         if (ModulePlayerLogger.getLogger().getEntityManager() != null)
@@ -45,6 +48,7 @@ public class PlayerLoggerConfig extends ConfigLoaderBase
         config.get(CAT, "DB_user", "forgeessentials", "Database user.").set(databaseUsername);
         config.get(CAT, "DB_password", "forgeessentials", "Database password.").set(databasePassword);
         config.get(CAT, "daystokeepdata", 0, "Days to keep data saved in the database. Set to 0 to keep all data indefinitely.").set(logDuration);
+        config.get(CAT, "enable_command_block_logging", true, "Whether commands performed by command blocks should be logged.").set(enableCommandBlockLogging);
     }
 
 }

@@ -8,9 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.forgeessentials.api.permissions.ServerZone;
+import com.forgeessentials.api.permissions.Zone;
 import com.forgeessentials.data.v2.DataManager;
 import com.forgeessentials.permissions.core.ZonePersistenceProvider;
 import com.forgeessentials.util.ServerUtil;
+import com.forgeessentials.util.output.LoggingHandler;
 
 public class SingleFileProvider extends ZonePersistenceProvider
 {
@@ -32,6 +34,8 @@ public class SingleFileProvider extends ZonePersistenceProvider
     {
         try (BufferedReader in = new BufferedReader(new FileReader(file)))
         {
+        	Zone.ReplaceMap.isLoading = true;
+        	LoggingHandler.felog.info("Start loading server zone!");
             ServerZone serverZone = DataManager.getGson().fromJson(in, ServerZone.class);
             if (serverZone == null)
                 return null;

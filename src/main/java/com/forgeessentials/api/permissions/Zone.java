@@ -159,14 +159,17 @@ public abstract class Zone
     };
 
 	public static class ReplaceMap<K,V> extends HashMap<K,V>{
+		public static boolean isLoading = true; // Makes sure it does return the overridden object if were not loading the config.
 		
 		@Override
 		public V put(K key, V value) {
 			V obj = super.put(key, value);
-			if(obj != null) {
+			if(obj != null && isLoading) {
 				LoggingHandler.felog.error("Fixed Duplicate bug for key-value pair " + key + "/" + obj);
+			}else {
+				return obj;
 			}
-			return null; // Fixes the duplicate bug by always returning null, so the GSON reader thinks nothing got replaced 
+			return null; // Fixes the duplicate bug by returning null, so the GSON reader thinks nothing got replaced
 		}
 	}
     
