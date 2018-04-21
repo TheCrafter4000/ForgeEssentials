@@ -29,7 +29,7 @@ public class LogEventCommand extends PlayerLoggerEvent<CommandEvent>
         action.command = event.command.getCommandName();
         if (event.parameters.length > 0) {
             action.arguments = StringUtils.join(event.parameters, ' ');
-            if(action.arguments.length() >= 255) {
+            if(action.arguments.length() >= 255) { // Fixes an issue where a 20-lined exception is thrown because of this
             	action.arguments = action.arguments.substring(0, 255);
             }
         }

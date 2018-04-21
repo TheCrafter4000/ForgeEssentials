@@ -70,8 +70,6 @@ public class ServerZone extends Zone implements Loadable
     @Override
     public void afterLoad()
     {
-    	Zone.ReplaceMap.isLoading = false;
-    	LoggingHandler.felog.info("Done loading server zone!");
         for (WorldZone zone : worldZones.values())
         {
             zone.serverZone = this;

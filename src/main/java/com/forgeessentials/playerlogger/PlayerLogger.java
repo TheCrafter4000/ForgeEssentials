@@ -724,7 +724,7 @@ public class PlayerLogger extends ServerEventHandler implements Runnable
     		if(!PlayerLoggerConfig.enableCommandBlockLogging) {
     			return;
     		}else {
-    			//Do stuff
+    			//TODO: Add command block filter support
     		}
     	}
     	

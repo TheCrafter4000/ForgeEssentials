@@ -34,11 +34,18 @@ public class SingleFileProvider extends ZonePersistenceProvider
     {
         try (BufferedReader in = new BufferedReader(new FileReader(file)))
         {
+        	
         	Zone.ReplaceMap.isLoading = true;
         	LoggingHandler.felog.info("Start loading server zone!");
+        	
             ServerZone serverZone = DataManager.getGson().fromJson(in, ServerZone.class);
-            if (serverZone == null)
-                return null;
+            
+        	Zone.ReplaceMap.isLoading = false;
+        	LoggingHandler.felog.info("Done loading server zone!");
+        	
+            if (serverZone == null) {
+            	return null;
+            }
             serverZone.afterLoad();
             readUserGroupPermissions(serverZone);
             return serverZone;
